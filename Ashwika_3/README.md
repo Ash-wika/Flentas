@@ -187,12 +187,6 @@ TOTAL:               ~$103/month
 
 ## 🎨 Features
 
-### Website Features
-- ✨ Ashwika's professional resume
-- 📱 Responsive design
-- 🎨 Modern dark theme
-- ⚡ Fast loading via ALB
-
 ### Infrastructure Features
 - 🔄 Auto-scaling based on demand
 - 🌍 Multi-AZ high availability
@@ -277,6 +271,11 @@ aws elbv2 describe-target-health \
 - **Timeout**: 5 seconds
 - **Healthy threshold**: 2
 - **Unhealthy threshold**: 2
+
+## Screenshot
+
+<img width="1909" height="858" alt="image" src="https://github.com/user-attachments/assets/f4ec9fe0-46ab-48c8-b270-2c6d8b880164" />
+
 
 ## 🧹 Cleanup
 
