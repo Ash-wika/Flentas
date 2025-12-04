@@ -1,0 +1,89 @@
+#!/bin/bash
+# User data script for EC2 instance to install and configure Nginx
+
+# Update system packages
+yum update -y
+
+# Install Nginx
+yum install -y nginx
+
+# Create website directory
+mkdir -p /usr/share/nginx/html
+
+# Decode and write HTML file
+echo "${html_content}" | base64 -d > /usr/share/nginx/html/index.html
+
+# Decode and write CSS file
+echo "${css_content}" | base64 -d > /usr/share/nginx/html/style.css
+
+# Decode and write JS file
+echo "${js_content}" | base64 -d > /usr/share/nginx/html/script.js
+
+# Configure Nginx
+cat > /etc/nginx/nginx.conf << 'NGINXEOF'
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 4096;
+    
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    server {
+        listen       80;
+        listen       [::]:80;
+        server_name  _;
+        root         /usr/share/nginx/html;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+
+        error_page 404 /404.html;
+        location = /404.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+        }
+    }
+}
+NGINXEOF
+
+# Start and enable Nginx
+systemctl start nginx
+systemctl enable nginx
+
+# Configure firewall (if firewalld is running)
+if systemctl is-active --quiet firewalld; then
+    firewall-cmd --permanent --add-service=http
+    firewall-cmd --reload
+fi
+
+# Create a log file to confirm user data execution
+echo "User data script completed at $(date)" > /var/log/user-data-complete.log
