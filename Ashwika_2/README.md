@@ -108,7 +108,7 @@ Type `yes` when prompted.
 After deployment completes (2-3 minutes), Terraform will output:
 
 ```
-website_url = "http://XX.XX.XX.XX"
+website_url = "http://44.221.32.206/"
 ```
 
 Open this URL in your browser to view your resume website!
@@ -135,6 +135,20 @@ The resume website includes:
   - Work experience timeline
   - Education
   - About section
+
+## Screenshots
+
+<img width="1919" height="978" alt="image" src="https://github.com/user-attachments/assets/35c1aa9a-9600-4a1b-8c3b-f5b89b55e053" />
+
+<img width="1919" height="962" alt="image" src="https://github.com/user-attachments/assets/cc5219c4-99d7-417c-8604-9177802a0852" />
+
+<img width="1919" height="962" alt="image" src="https://github.com/user-attachments/assets/a4d1b038-5840-4690-8694-997be7f95342" />
+
+<img width="1919" height="970" alt="image" src="https://github.com/user-attachments/assets/11f5ac4e-ddf5-4ea2-bda8-eb6f76592b6c" />
+
+
+
+
 
 ## 🔧 Customization
 
